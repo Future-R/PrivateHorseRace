@@ -1,0 +1,16 @@
+C:\Users\tingzhou\source\repos\TestHorse\TestHorse\bin\Debug\TestHorse.exe.config
+C:\Users\tingzhou\source\repos\TestHorse\TestHorse\bin\Debug\TestHorse.exe
+C:\Users\tingzhou\source\repos\TestHorse\TestHorse\bin\Debug\TestHorse.pdb
+C:\Users\tingzhou\source\repos\TestHorse\TestHorse\obj\Debug\TestHorse.csproj.AssemblyReference.cache
+C:\Users\tingzhou\source\repos\TestHorse\TestHorse\obj\Debug\TestHorse.csproj.SuggestedBindingRedirects.cache
+C:\Users\tingzhou\source\repos\TestHorse\TestHorse\obj\Debug\TestHorse.csproj.CoreCompileInputs.cache
+C:\Users\tingzhou\source\repos\TestHorse\TestHorse\obj\Debug\TestHorse.exe
+C:\Users\tingzhou\source\repos\TestHorse\TestHorse\obj\Debug\TestHorse.pdb
+C:\Users\X\OneDrive\repo\TestHorse\TestHorse\bin\Debug\TestHorse.exe.config
+C:\Users\X\OneDrive\repo\TestHorse\TestHorse\bin\Debug\TestHorse.exe
+C:\Users\X\OneDrive\repo\TestHorse\TestHorse\bin\Debug\TestHorse.pdb
+C:\Users\X\OneDrive\repo\TestHorse\TestHorse\obj\Debug\TestHorse.csproj.AssemblyReference.cache
+C:\Users\X\OneDrive\repo\TestHorse\TestHorse\obj\Debug\TestHorse.csproj.SuggestedBindingRedirects.cache
+C:\Users\X\OneDrive\repo\TestHorse\TestHorse\obj\Debug\TestHorse.csproj.CoreCompileInputs.cache
+C:\Users\X\OneDrive\repo\TestHorse\TestHorse\obj\Debug\TestHorse.exe
+C:\Users\X\OneDrive\repo\TestHorse\TestHorse\obj\Debug\TestHorse.pdb
