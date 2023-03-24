@@ -30,6 +30,11 @@ namespace HorseRace
         //    return (float)(Mathf.PerlinNoise(seed.SelectOne(), timer) - 0.5) * 2;
         //}
 
+        public static void 打印(string x) 
+        {
+            Console.WriteLine(x);
+        }
+
         // 距离越长，变化越大
         public static List<float> 生成赛道海拔(float 距离)
         {

@@ -25,6 +25,7 @@ namespace HorseRace
             string 当前目录 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             // 读取马的基础属性
+            工具.打印("正在读取赛马");
             所有马.Clear();
             Excel.Workbook 工作簿 = excel.Workbooks.Open($"{当前目录}/马的基础属性.xlsx");
 
@@ -45,6 +46,7 @@ namespace HorseRace
             }
 
             // 读取赛道属性
+            工具.打印("正在读取赛道");
             工作簿 = excel.Workbooks.Open($"{当前目录}/比赛表.xlsx");
             工作表 = 工作簿.Sheets[1];
             for (int i = 0; i < 所有赛道的数量; i++)
@@ -65,6 +67,7 @@ namespace HorseRace
             // 关闭读取
             工作簿.Close();
             excel.Quit();
+            工具.打印("读取完毕！");
         }
     }
 }
