@@ -135,5 +135,22 @@ namespace HorseRace
 
             return 返回值;
         }
+
+        public static int 获取适性等级(string 字母)
+        {
+            int 返回值 = 字母.Trim() switch
+            {
+                "G" => 1,
+                "F" => 2,
+                "E" => 3,
+                "D" => 4,
+                "C" => 5,
+                "B" => 6,
+                "A" => 7,
+                "S" => 8,
+                _ => throw new ArgumentOutOfRangeException(nameof(字母))
+            };
+            return 返回值;
+        }
     }
 }
