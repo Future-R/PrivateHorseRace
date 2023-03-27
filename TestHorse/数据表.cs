@@ -19,8 +19,55 @@ namespace HorseRace
 
         public static List<float> 跑法智力修正 { get; set; }
 
+        // 0绝佳4极差
+        public static List<干劲配置> 干劲配置表 { get; set; }
+
         // 根据ID索引配置，0逃1先2中3追4大逃
         public static List<跑法配置> 跑法配置表 { get; set; }
+
+        public class 干劲配置
+        {
+            public string 名称;
+            public float 训练系数;
+            public float 基础属性系数;
+        }
+
+        public class 属性
+        {
+            public float 基础属性;
+            public float 最终属性 
+            {
+                // 目前每次get都要重新计算，之后优化为修正组发生变化时发送事件通知才计算，性能会好很多
+                get
+                {
+                    float 返回值 = 基础属性;
+                    foreach (var 修正 in 修正组)
+                    {
+                        if (修正.是加算)
+                        {
+                            返回值 += 修正.修正值;
+                        }
+                        else
+                        {
+                            返回值 *= 修正.修正值;
+                        }
+                    }
+                    return 返回值;
+                } 
+            }
+            public List<属性修正> 修正组 = new List<属性修正>();
+        }
+
+        public class 属性修正 
+        {
+            public int 优先级;
+            public List<string> 标签组;
+            // 加算还是乘算
+            public bool 是加算;
+            public float 修正值;
+            // 约定-1为永续效果
+            public float 剩余持续时间;
+        }
 
         public class 跑法配置
         {
@@ -134,6 +181,7 @@ namespace HorseRace
             工具.打印("正在检查设施");
             跑法智力修正 = new List<float>();
             跑法配置表 = new List<跑法配置>();
+            干劲配置表 = new List<干劲配置>();
             工作簿 = excel.Workbooks.Open($"{当前目录}/跑法适应.xlsx");
             工作表 = 工作簿.Sheets[1];
             for (int i = 2; i < 10; i++)
@@ -156,6 +204,18 @@ namespace HorseRace
                     位置意识上限 = (float)工作表.Cells[i, 8].Value
                 };
                 跑法配置表.Add(条目);
+            }
+            工作簿 = excel.Workbooks.Open($"{当前目录}/干劲.xlsx");
+            工作表 = 工作簿.Sheets[1];
+            for (int i = 2; i < 7; i++)
+            {
+                干劲配置 条目 = new 干劲配置
+                {
+                    名称 = 工作表.Cells[i, 1].Value,
+                    训练系数 = (float)工作表.Cells[i, 2].Value,
+                    基础属性系数 = (float)工作表.Cells[i, 3].Value
+                };
+                干劲配置表.Add(条目);
             }
 
             // 关闭读取

@@ -34,12 +34,13 @@ namespace HorseRace
 
         // 跑法 0逃1先2中3追4大逃
         public int 跑法 = -1;
+        public int 干劲 = -1;
 
-        public int 修正速度 { get; set; }
-        public int 修正耐力 { get; set; }
-        public int 修正力量 { get; set; }
-        public int 修正意志 { get; set; }
-        public int 修正智力 { get; set; }
+        public float 修正速度 { get; set; }
+        public float 修正耐力 { get; set; }
+        public float 修正力量 { get; set; }
+        public float 修正意志 { get; set; }
+        public float 修正智力 { get; set; }
 
         public float 已行进距离 { get; set; }
         public float 用时 { get; set; }
