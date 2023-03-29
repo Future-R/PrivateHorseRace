@@ -24,7 +24,7 @@ namespace HorseRace
         138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180,
         151};
 
-        static Random random = new Random();
+        public static Random 随机 = new Random();
 
         //public float GetPerlinRandom()
         //{
@@ -104,7 +104,7 @@ namespace HorseRace
 
         public static T 随机取一<T>(this List<T> list)
         {
-            int index = random.Next(list.Count);
+            int index = 随机.Next(list.Count);
             return list[index];
         }
 
@@ -115,7 +115,7 @@ namespace HorseRace
             while (n > 1)
             {
                 n--;
-                int k = random.Next(n + 1);
+                int k = 随机.Next(n + 1);
                 T value = list[k];
                 list[k] = list[n];
                 list[n] = value;
