@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
+using static HorseRace.数据表;
 
 namespace HorseRace
 {
@@ -36,20 +37,23 @@ namespace HorseRace
         public int 跑法 = -1;
         public int 干劲 = -1;
 
-        public float 修正速度 { get; set; }
-        public float 修正耐力 { get; set; }
-        public float 修正力量 { get; set; }
-        public float 修正意志 { get; set; }
-        public float 修正智力 { get; set; }
+        public 属性 速度 = new 属性();
+        public 属性 耐力 = new 属性();
+        public 属性 力量 = new 属性();
+        public 属性 意志 = new 属性();
+        public 属性 智力 = new 属性();
 
         public float 已行进距离 { get; set; }
         public float 用时 { get; set; }
 
-        // 当前速度
-        public float current_speed = 0;
-        // 目标速度
-        public float target_speed = 0;
-        
+
+        public 属性 当前速度 = new 属性();
+        public 属性 目标速度 = new 属性();
+        public 属性 当前加速度 = new 属性();
+        public float 体力上限 { get; set; }
+        public float 当前体力 { get; set; }
+        public float 出闸延迟 { get; set; }
+
 
         // 终盘超人
         public float change_order_up_end_after = 0;

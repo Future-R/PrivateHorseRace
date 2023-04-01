@@ -9,10 +9,13 @@ namespace HorseRace
 {
     public static class 数据表
     {
-        public static int 所有马的数量 = 16;
-        public static List<马> 所有马 { get; set; }
+        public static float 一帧时间;
+        public static int 所有马的数量;
+        public static int 所有赛道的数量;
+        public static int 保底属性;
+        public static float 赛道属性加成倍率;
 
-        public static int 所有赛道的数量 = 16;
+        public static List<马> 所有马 { get; set; }
         public static List<比赛> 所有赛道 { get; set; }
 
         public static List<场地状况调整> 场地状况调整配置表 { get; set; }
@@ -35,7 +38,7 @@ namespace HorseRace
         public class 属性
         {
             public float 基础属性;
-            public float 最终属性 
+            public float 最终属性
             {
                 // 目前每次get都要重新计算，之后优化为修正组发生变化时发送事件通知才计算，性能会好很多
                 get
@@ -53,13 +56,14 @@ namespace HorseRace
                         }
                     }
                     return 返回值;
-                } 
+                }
             }
             public List<属性修正> 修正组 = new List<属性修正>();
         }
 
-        public class 属性修正 
+        public class 属性修正 : IComparable
         {
+            // 乘算默认100 加算默认200
             public int 优先级;
             public List<string> 标签组;
             // 加算还是乘算
@@ -67,6 +71,15 @@ namespace HorseRace
             public float 修正值;
             // 约定-1为永续效果
             public float 剩余持续时间;
+
+            public int CompareTo(object obj)
+            {
+                属性修正 对比值 = obj as 属性修正;
+                if (对比值 == null)
+                    return 1;
+                else
+                    return 对比值.优先级.CompareTo(this.优先级);
+            }
         }
 
         public class 跑法配置
@@ -97,17 +110,28 @@ namespace HorseRace
 
         public static void 更新()
         {
+            工具.打印("正在打开新世界");
             var random = new Random();
 
             Excel.Application excel = new Excel.Application();
             string 当前目录 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
+            // 读取杂项表
+            工具.打印("睁开双眼");
+            Excel.Workbook 工作簿 = excel.Workbooks.Open($"{当前目录}/杂项表.xlsx");
+            Excel.Worksheet 工作表 = 工作簿.Sheets[1];
+
+            一帧时间 = (float)工作表.Cells[2, 3].Value;
+            所有马的数量 = (int)工作表.Cells[3, 3].Value;
+            所有赛道的数量 = (int)工作表.Cells[4, 3].Value;
+            保底属性 = (int)工作表.Cells[5, 3].Value;
+            赛道属性加成倍率 = (float)工作表.Cells[6, 3].Value;
+
             // 读取马的基础属性
             工具.打印("正在浏览赛马");
             所有马 = new List<马>();
-            Excel.Workbook 工作簿 = excel.Workbooks.Open($"{当前目录}/马的基础属性.xlsx");
-
-            Excel.Worksheet 工作表 = 工作簿.Sheets[1];
+            工作簿 = excel.Workbooks.Open($"{当前目录}/马的基础属性.xlsx");
+            工作表 = 工作簿.Sheets[1];
             for (int i = 0; i < 所有马的数量; i++)
             {
                 所有马.Add(new 马());
