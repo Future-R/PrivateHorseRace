@@ -1,5 +1,6 @@
 # dir 不需要提交的目录
-
+/TestHorse/obj
+/.vs
 
 # file 不需要提交的文件
 
@@ -11,3 +12,4 @@
 *.exe
 *.cache
 *.pdb
+
