@@ -49,10 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="异能.cs" />
     <Compile Include="检定.cs" />
     <Compile Include="数据表.cs" />
     <Compile Include="工具.cs" />
     <Compile Include="管理器.cs" />
+    <Compile Include="异能脚本\起跑冲刺.cs" />
     <Compile Include="马.cs" />
     <Compile Include="比赛.cs" />
     <Compile Include="主程序.cs" />

@@ -21,6 +21,7 @@ namespace HorseRace
         public static List<场地状况调整> 场地状况调整配置表 { get; set; }
 
         public static List<float> 跑法智力修正 { get; set; }
+        public static List<float> 距离速度修正 { get; set; }
 
         // 0绝佳4极差
         public static List<干劲配置> 干劲配置表 { get; set; }
@@ -63,9 +64,9 @@ namespace HorseRace
 
         public class 属性修正 : IComparable
         {
+            public List<string> 标签组;
             // 乘算默认100 加算默认200
             public int 优先级;
-            public List<string> 标签组;
             // 加算还是乘算
             public bool 是加算;
             public float 修正值;
@@ -117,7 +118,6 @@ namespace HorseRace
             string 当前目录 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             // 读取杂项表
-            工具.打印("睁开双眼");
             Excel.Workbook 工作簿 = excel.Workbooks.Open($"{当前目录}/杂项表.xlsx");
             Excel.Worksheet 工作表 = 工作簿.Sheets[1];
 
@@ -145,16 +145,21 @@ namespace HorseRace
                 所有马[i].基础意志 = (int)Math.Floor(工作表.Cells[i + 2, 6].Value);
                 所有马[i].基础智力 = (int)Math.Floor(工作表.Cells[i + 2, 7].Value);
                 // 这里跳了5列，成长率暂时用不到，7+5+1=13
+                // 13~14场地适应 15~18距离适应 19~22跑法适应
                 所有马[i].草地适性 = 工具.获取适性等级(工作表.Cells[i + 2, 13].Value);
                 所有马[i].泥地适性 = 工具.获取适性等级(工作表.Cells[i + 2, 14].Value);
-                所有马[i].短距离适性 = 工具.获取适性等级(工作表.Cells[i + 2, 15].Value);
-                所有马[i].英哩赛适性 = 工具.获取适性等级(工作表.Cells[i + 2, 16].Value);
-                所有马[i].中距离适性 = 工具.获取适性等级(工作表.Cells[i + 2, 17].Value);
-                所有马[i].长距离适性 = 工具.获取适性等级(工作表.Cells[i + 2, 18].Value);
-                所有马[i].领头适性 = 工具.获取适性等级(工作表.Cells[i + 2, 19].Value);
-                所有马[i].前列适性 = 工具.获取适性等级(工作表.Cells[i + 2, 20].Value);
-                所有马[i].居中适性 = 工具.获取适性等级(工作表.Cells[i + 2, 21].Value);
-                所有马[i].后追适性 = 工具.获取适性等级(工作表.Cells[i + 2, 22].Value);
+                
+                所有马[i].距离适性 = new List<int>();
+                for (int j = 15; j < 19; j++)
+                {
+                    所有马[i].距离适性.Add(工具.获取适性等级(工作表.Cells[i + 2, j].Value));
+                }
+
+                所有马[i].跑法适性 = new List<int>();
+                for (int j = 19; j < 23; j++)
+                {
+                    所有马[i].跑法适性.Add(工具.获取适性等级(工作表.Cells[i + 2, j].Value));
+                }
             }
 
             // 读取赛道属性
@@ -170,7 +175,6 @@ namespace HorseRace
                 所有赛道[i].名称 = 工作表.Cells[i + 2, 2].Value;
                 所有赛道[i].是草地 = 工作表.Cells[i + 2, 5].Value == "草地";
                 所有赛道[i].总长度 = (float)Math.Floor(工作表.Cells[i + 2, 6].Value);
-                所有赛道[i].计算距离类型();
 
                 // TODO：随机天气
 
@@ -206,7 +210,7 @@ namespace HorseRace
             跑法智力修正 = new List<float>();
             跑法配置表 = new List<跑法配置>();
             干劲配置表 = new List<干劲配置>();
-            工作簿 = excel.Workbooks.Open($"{当前目录}/跑法适应.xlsx");
+            工作簿 = excel.Workbooks.Open($"{当前目录}/跑法适应智力.xlsx");
             工作表 = 工作簿.Sheets[1];
             for (int i = 2; i < 10; i++)
             {
@@ -240,6 +244,15 @@ namespace HorseRace
                     基础属性系数 = (float)工作表.Cells[i, 3].Value
                 };
                 干劲配置表.Add(条目);
+            }
+
+            // 读取距离配置表
+            距离速度修正 = new List<float>();
+            工作簿 = excel.Workbooks.Open($"{当前目录}/距离适应速度.xlsx");
+            工作表 = 工作簿.Sheets[1];
+            for (int i = 2; i < 10; i++)
+            {
+                距离速度修正.Add((float)工作表.Cells[i, 2].Value);
             }
 
             // 关闭读取
