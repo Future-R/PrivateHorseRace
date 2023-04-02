@@ -93,21 +93,11 @@ namespace HorseRace
         // 附近马娘
         public float near_count = 0;
 
-        // 临时用的，之后会使用管理器的逻辑帧Tick
-        public float Run()
-        {
-            Random r = new Random(Guid.NewGuid().GetHashCode());
-            float distance = r.Next(1, (int)Math.Floor(速度.最终属性));
-            this.已行进距离 += distance;
-
-            return distance;
-        }
-
         // 序盘和中盘：基础目标速度 = 赛道基准速度 * 跑法阶段系数
         // 终盘和冲刺：基础目标速度 = 赛道基准速度 * 跑法阶段系数 + 根号(500 * 速度属性) * 距离适应性系数 * 0.002
-        public float 获取目标速度()
+        public float 获取基础目标速度()
         {
-            if (当前体力 >= 0)
+            if (当前体力 <= 0)
             {
                 return 最低速度;
             }
@@ -120,6 +110,24 @@ namespace HorseRace
                 case 2:
                 case 3:
                     return Convert.ToSingle(当前比赛.赛道基准速度 * 跑法配置表[跑法].终盘和冲刺目标速度 + Math.Sqrt(500 * 速度.最终属性) * 距离速度修正[距离适性[跑法]] * 0.002);
+                default:
+                    return -1;
+            }
+        }
+
+        // 加速度 = 基础加速度(平常0.0006，上坡0.0004) * 根号(500 * 力量属性) * 跑法阶段系数 * 场地适应性系数 * 距离适应性系数 + 技能调整值 + 起跑冲刺加值
+        public float 获取基础加速度()
+        {
+            float 力量加成加速度 = Convert.ToSingle(0.0006 * Math.Sqrt(500 * 力量.最终属性));
+            switch (当前阶段)
+            {
+                case 0:
+                    return 力量加成加速度 * 跑法配置表[跑法].序盘加速度;
+                case 1:
+                    return 力量加成加速度 * 跑法配置表[跑法].中盘加速度;
+                case 2:
+                case 3:
+                    return 力量加成加速度 * 跑法配置表[跑法].终盘和冲刺加速度;
                 default:
                     return -1;
             }

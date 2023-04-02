@@ -90,6 +90,9 @@ namespace HorseRace
             public float 序盘目标速度 { get; set; }
             public float 中盘目标速度 { get; set; }
             public float 终盘和冲刺目标速度 { get; set; }
+            public float 序盘加速度 { get; set; }
+            public float 中盘加速度 { get; set; }
+            public float 终盘和冲刺加速度 { get; set; }
             public float 体力系数 { get; set; }
             public float 位置意识下限 { get; set; }
             public float 位置意识上限 { get; set; }
@@ -227,9 +230,12 @@ namespace HorseRace
                     序盘目标速度 = (float)工作表.Cells[i, 3].Value,
                     中盘目标速度 = (float)工作表.Cells[i, 4].Value,
                     终盘和冲刺目标速度 = (float)工作表.Cells[i, 5].Value,
-                    体力系数 = (float)工作表.Cells[i, 6].Value,
-                    位置意识下限 = (float)工作表.Cells[i, 7].Value,
-                    位置意识上限 = (float)工作表.Cells[i, 8].Value
+                    序盘加速度 = (float)工作表.Cells[i, 6].Value,
+                    中盘加速度 = (float)工作表.Cells[i, 7].Value,
+                    终盘和冲刺加速度 = (float)工作表.Cells[i, 8].Value,
+                    体力系数 = (float)工作表.Cells[i, 9].Value,
+                    位置意识下限 = (float)工作表.Cells[i, 10].Value,
+                    位置意识上限 = (float)工作表.Cells[i, 11].Value
                 };
                 跑法配置表.Add(条目);
             }
