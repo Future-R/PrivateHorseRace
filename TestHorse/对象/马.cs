@@ -44,6 +44,8 @@ namespace HorseRace
         public 属性 意志 = new 属性();
         public 属性 智力 = new 属性();
 
+        public char[] 属性优势 = new char[3] { '×', '×', '×' };
+
         public float 已行进距离 { get; set; }
         // 向上取整，从1开始计数。但距离为0时仍可能返回0。
         public int 赛段 { get { return (int)Math.Ceiling(已行进距离 / 当前比赛.总长度 * 24); } }
