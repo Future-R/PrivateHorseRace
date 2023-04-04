@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F9925311-1CC0-4BC1-9E4F-9852CC150A5C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TestHorse</RootNamespace>
+    <RootNamespace>HorseRace</RootNamespace>
     <AssemblyName>TestHorse</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <LangVersion>8.0</LangVersion>
@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="事件\事件参数基类.cs" />
     <Compile Include="异能.cs" />
     <Compile Include="检定.cs" />
     <Compile Include="数据表.cs" />

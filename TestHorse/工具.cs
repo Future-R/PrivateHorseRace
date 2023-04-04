@@ -139,14 +139,14 @@ namespace HorseRace
         {
             int 返回值 = 字母.Trim() switch
             {
-                "G" => 1,
-                "F" => 2,
-                "E" => 3,
-                "D" => 4,
-                "C" => 5,
-                "B" => 6,
-                "A" => 7,
-                "S" => 8,
+                "G" => 0,
+                "F" => 1,
+                "E" => 2,
+                "D" => 3,
+                "C" => 4,
+                "B" => 5,
+                "A" => 6,
+                "S" => 7,
                 _ => throw new ArgumentOutOfRangeException(nameof(字母))
             };
             return 返回值;

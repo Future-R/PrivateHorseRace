@@ -18,10 +18,12 @@ namespace HorseRace
         public 起跑冲刺(马 对象)
         {
             承担者 = 对象;
+            添加时();
         }
 
         void 添加时()
         {
+            承担者.状态.Add(this);
             // 添加一个加速度 +24
             承担者.当前加速度.修正组.Add(new 数据表.属性修正
             {
@@ -35,7 +37,10 @@ namespace HorseRace
 
         void 运行时()
         {
-
+            if (承担者.速度.最终属性 > 0.85 * 数据表.当前比赛.赛道基准速度)
+            {
+                移除时();
+            }
         }
 
         void 移除时()
@@ -49,6 +54,7 @@ namespace HorseRace
                     break;
                 }
             }
+            承担者.状态.Remove(this);
         }
     }
 }

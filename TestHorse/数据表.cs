@@ -22,6 +22,8 @@ namespace HorseRace
 
         public static List<float> 跑法智力修正 { get; set; }
         public static List<float> 距离速度修正 { get; set; }
+        public static List<float> 场地加速修正 { get; set; }
+        public static List<float> 距离加速修正 { get; set; }
 
         // 0绝佳4极差
         public static List<干劲配置> 干劲配置表 { get; set; }
@@ -45,6 +47,7 @@ namespace HorseRace
                 get
                 {
                     float 返回值 = 基础属性;
+                    修正组.Sort();
                     foreach (var 修正 in 修正组)
                     {
                         if (修正.是加算)
@@ -210,15 +213,7 @@ namespace HorseRace
 
             // 读取跑法配置表
             工具.打印("正在检查设施");
-            跑法智力修正 = new List<float>();
             跑法配置表 = new List<跑法配置>();
-            干劲配置表 = new List<干劲配置>();
-            工作簿 = excel.Workbooks.Open($"{当前目录}/跑法适应智力.xlsx");
-            工作表 = 工作簿.Sheets[1];
-            for (int i = 2; i < 10; i++)
-            {
-                跑法智力修正.Add((float)工作表.Cells[i, 2].Value);
-            }
             工作簿 = excel.Workbooks.Open($"{当前目录}/跑法.xlsx");
             工作表 = 工作簿.Sheets[1];
             for (int i = 2; i < 7; i++)
@@ -239,6 +234,9 @@ namespace HorseRace
                 };
                 跑法配置表.Add(条目);
             }
+
+            // 读取干劲配置表
+            干劲配置表 = new List<干劲配置>();
             工作簿 = excel.Workbooks.Open($"{当前目录}/干劲.xlsx");
             工作表 = 工作簿.Sheets[1];
             for (int i = 2; i < 7; i++)
@@ -252,13 +250,20 @@ namespace HorseRace
                 干劲配置表.Add(条目);
             }
 
-            // 读取距离配置表
+            // 读取适应配置表
+            跑法智力修正 = new List<float>();
             距离速度修正 = new List<float>();
-            工作簿 = excel.Workbooks.Open($"{当前目录}/距离适应速度.xlsx");
+            场地加速修正 = new List<float>();
+            距离加速修正 = new List<float>();
+            
+            工作簿 = excel.Workbooks.Open($"{当前目录}/适应性.xlsx");
             工作表 = 工作簿.Sheets[1];
             for (int i = 2; i < 10; i++)
             {
-                距离速度修正.Add((float)工作表.Cells[i, 2].Value);
+                跑法智力修正.Add((float)工作表.Cells[i, 2].Value);
+                距离速度修正.Add((float)工作表.Cells[i, 3].Value);
+                场地加速修正.Add((float)工作表.Cells[i, 4].Value);
+                距离加速修正.Add((float)工作表.Cells[i, 5].Value);
             }
 
             // 关闭读取
