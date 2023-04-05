@@ -38,15 +38,17 @@ namespace HorseRace
         // 存放所有属性，方便遍历更新
         public List<属性> 属性组 = new List<属性>();
 
-        public 属性 速度 = new 属性();
-        public 属性 耐力 = new 属性();
-        public 属性 力量 = new 属性();
-        public 属性 意志 = new 属性();
-        public 属性 智力 = new 属性();
+        public 属性 速度属性 = new 属性();
+        public 属性 耐力属性 = new 属性();
+        public 属性 力量属性 = new 属性();
+        public 属性 意志属性 = new 属性();
+        public 属性 智力属性 = new 属性();
 
         public char[] 属性优势 = new char[3] { '×', '×', '×' };
 
-        public float 已行进距离 { get; set; }
+        public int 比赛编号 = 0;
+
+        public double 已行进距离 { get; set; }
         // 向上取整，从1开始计数。但距离为0时仍可能返回0。
         public int 赛段 { get { return (int)Math.Ceiling(已行进距离 / 当前比赛.总长度 * 24); } }
         // 0序盘1-4 1中盘5-16 2终盘17-20 3冲刺21-24
@@ -74,16 +76,16 @@ namespace HorseRace
                 return -1;
             }
         }
-        public float 用时 { get; set; }
+        public double 用时 { get; set; }
 
 
         public 属性 当前速度 = new 属性();
         public 属性 目标速度 = new 属性();
         public 属性 当前加速度 = new 属性();
-        public float 体力上限 { get; set; }
+        public double 体力上限 { get; set; }
 
-        private float _当前体力;
-        public float 当前体力
+        private double _当前体力;
+        public double 当前体力
         {
             get { return _当前体力; }
             set
@@ -96,32 +98,38 @@ namespace HorseRace
                     _当前体力 = value;
             }
         }
-        public float 出闸延迟 { get; set; }
+        public double 出闸延迟 { get; set; }
 
         // 最低速度 = 0.85 * 赛道基准速度 + 根号(200 * 根性属性) * 0.001
-        public float 最低速度
+        public double 最低速度
         {
             get
             {
-                float 返回值 = Convert.ToSingle(0.85 * 当前比赛.赛道基准速度 + Math.Sqrt(200 * 意志.最终属性) * 0.001);
+                double 返回值 = 0.85 * 当前比赛.赛道基准速度 + Math.Sqrt(200 * 意志属性.最终属性) * 0.001;
                 return 返回值;
             }
         }
 
+        // 冲线数据
+        public double 冲线时间 = 0;
+        public double 冲线速度 = 0;
+        public double 名次 = 0;
+        public double 着差 = 0;
+        public string 着差文案 = "优胜";
 
         // 终盘超人
-        public float change_order_up_end_after = 0;
+        public double change_order_up_end_after = 0;
         // 附近马娘
-        public float near_count = 0;
+        public double near_count = 0;
 
         public 马()
         {
-            属性组.AddRange(new[] { 速度, 耐力, 力量, 意志, 智力, 当前速度, 目标速度, 当前加速度 });
+            属性组.AddRange(new[] { 速度属性, 耐力属性, 力量属性, 意志属性, 智力属性, 当前速度, 目标速度, 当前加速度 });
         }
 
         // 序盘和中盘：基础目标速度 = 赛道基准速度 * 跑法阶段系数
         // 终盘和冲刺：基础目标速度 = 赛道基准速度 * 跑法阶段系数 + 根号(500 * 速度属性) * 距离适应性系数 * 0.002
-        public float 获取基础目标速度()
+        public double 获取基础目标速度()
         {
             if (当前体力 <= 0)
             {
@@ -135,16 +143,16 @@ namespace HorseRace
                     return 当前比赛.赛道基准速度 * 跑法配置表[跑法].中盘目标速度;
                 case 2:
                 case 3:
-                    return Convert.ToSingle(当前比赛.赛道基准速度 * 跑法配置表[跑法].终盘和冲刺目标速度 + Math.Sqrt(500 * 速度.最终属性) * 距离速度修正[距离适性[跑法]] * 0.002);
+                    return 当前比赛.赛道基准速度 * 跑法配置表[跑法].终盘和冲刺目标速度 + Math.Sqrt(500 * 速度属性.最终属性) * 距离速度修正[距离适性[跑法]] * 0.002;
                 default:
                     return -1;
             }
         }
 
         // 加速度 = 基础加速度(平常0.0006，上坡0.0004) * 根号(500 * 力量属性) * 跑法阶段系数 * 场地适应性系数 * 距离适应性系数 + 技能调整值 + 起跑冲刺加值
-        public float 获取加速度()
+        public double 获取加速度()
         {
-            float 加速度 = Convert.ToSingle(0.0006 * Math.Sqrt(500 * 力量.最终属性));
+            double 加速度 = Convert.ToSingle(0.0006 * Math.Sqrt(500 * 力量属性.最终属性));
             加速度 *= 距离加速修正[距离适性[(int)当前比赛.距离类型]];
             if (当前比赛.是草地)
             {

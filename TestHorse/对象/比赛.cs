@@ -10,12 +10,15 @@ namespace HorseRace
     {
         public int ID { get; set; }
         public string 名称 { get; set; }
-        public float 总长度 { get; set; }
+        public double 总长度 { get; set; }
         public bool 是草地 { get; set; }
 
         // 0良好 1略差 2差 3极差
         public int 场地状况 { get; set; }
         public List<马> 参赛马 { get; set; }
+
+        public List<马> 赛后马 = new List<马>();
+
 
         public 距离 距离类型
         {
@@ -43,7 +46,7 @@ namespace HorseRace
         }
 
         // 赛道基准速度 = 20 - (赛道长度 - 2000) / 1000
-        public float 赛道基准速度
+        public double 赛道基准速度
         {
             get
             {

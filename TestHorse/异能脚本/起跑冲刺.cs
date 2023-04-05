@@ -11,7 +11,7 @@ namespace HorseRace
         new string 唯一名称 = "起跑冲刺";
         new string 标签 = "系统";
         new int 优先级 = 100;
-        new float 持续时间 = -1;
+        new double 持续时间 = -1;
         new string 添加者 = "系统";
         new 马 承担者;
 
@@ -37,7 +37,7 @@ namespace HorseRace
 
         void 运行时()
         {
-            if (承担者.速度.最终属性 > 0.85 * 数据表.当前比赛.赛道基准速度)
+            if (承担者.速度属性.最终属性 > 0.85 * 数据表.当前比赛.赛道基准速度)
             {
                 移除时();
             }

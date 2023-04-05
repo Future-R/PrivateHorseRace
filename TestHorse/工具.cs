@@ -26,77 +26,77 @@ namespace HorseRace
 
         public static Random 随机 = new Random();
 
-        //public float GetPerlinRandom()
+        //public double GetPerlinRandom()
         //{
-        //    return (float)(Mathf.PerlinNoise(seed.SelectOne(), timer) - 0.5) * 2;
+        //    return (double)(Mathf.PerlinNoise(seed.SelectOne(), timer) - 0.5) * 2;
         //}
 
-        public static void 打印(string x) 
+        public static void 打印(string x)
         {
             Console.WriteLine(x);
         }
 
         // 距离越长，变化越大
-        public static List<float> 生成赛道海拔(float 距离)
+        public static List<double> 生成赛道海拔(double 距离)
         {
             return 生成柏林噪声(距离 / 100);
-            //float 权重 = 距离 / 100;
+            //double 权重 = 距离 / 100;
             //int n = 24;
-            //float[] randomNumbers = new float[n];
+            //double[] randomNumbers = new double[n];
             //Random rand = new Random();
-            //float startValue = (float)rand.NextDouble();
-            //float endValue = (float)rand.NextDouble();
+            //double startValue = (double)rand.NextDouble();
+            //double endValue = (double)rand.NextDouble();
             //for (int i = 0; i < n; i++)
             //{
-            //    float t = (float)i / (n - 1);
+            //    double t = (double)i / (n - 1);
             //    randomNumbers[i] = (startValue * (1 - t) + endValue * t) * 权重;
             //}
             //return randomNumbers.ToList();
         }
 
-        public static List<float> 生成柏林噪声(float 动态, int 长度 = 24)
+        public static List<double> 生成柏林噪声(double 动态, int 长度 = 24)
         {
-            List<float> 柏林噪声 = new List<float>(长度);
-            float[] 噪声 = 生成白噪声(长度);
+            List<double> 柏林噪声 = new List<double>(长度);
+            double[] 噪声 = 生成白噪声(长度);
 
             for (int i = 0; i < 长度; i++)
             {
-                float 噪声值 = 0;
-                float 累积比例 = 0;
-                float 比例 = 动态;
+                double 噪声值 = 0;
+                double 累积比例 = 0;
+                double 比例 = 动态;
 
                 for (int o = 1; o < 5; o++)
                 {
                     int 音高 = 长度 >> o;
                     int 样本1 = (i / 音高) * 音高;
                     int 样本2 = (样本1 + 音高) % 长度;
-                    float 混合比例 = (float)(i - 样本1) / (float)音高;
-                    float 样本混合比例 = 噪声插值(噪声[样本1], 噪声[样本2], 混合比例);
+                    double 混合比例 = (double)(i - 样本1) / (double)音高;
+                    double 样本混合比例 = 噪声插值(噪声[样本1], 噪声[样本2], 混合比例);
                     噪声值 += 样本混合比例 * 比例;
                     累积比例 += 比例;
                     比例 /= 2;
                 }
 
-                柏林噪声.Add((float)Math.Round(噪声值 / 累积比例 * 10, 2));
+                柏林噪声.Add((double)Math.Round(噪声值 / 累积比例 * 10, 2));
             }
 
             return 柏林噪声;
         }
 
-        private static float[] 生成白噪声(int 长度)
+        private static double[] 生成白噪声(int 长度)
         {
             Random 随机数生成器 = new Random();
-            float[] 白噪声 = new float[长度];
+            double[] 白噪声 = new double[长度];
 
             for (int i = 0; i < 长度; i++)
             {
-                白噪声[i] = (float)随机数生成器.NextDouble() % 1;
+                白噪声[i] = (double)随机数生成器.NextDouble() % 1;
             }
 
             return 白噪声;
         }
 
-        private static float 噪声插值(float x0, float x1, float alpha)
+        private static double 噪声插值(double x0, double x1, double alpha)
         {
             return x0 * (1 - alpha) + alpha * x1;
         }
@@ -149,6 +149,30 @@ namespace HorseRace
                 "S" => 7,
                 _ => throw new ArgumentOutOfRangeException(nameof(字母))
             };
+            return 返回值;
+        }
+
+        // 输入前方马拉开的着差，赋予后方的马
+        // 着差为什么不存在后方马身上呢，因为后方马被连续超越时，着差会被覆盖
+        public static string 获取差着文案(double 着差)
+        {
+            string 返回值 = "未知";
+
+            // 超过10马身 大差
+            if (着差 > 25)
+            {
+                return "大差";
+            }
+            // 超过1马身 四舍五入
+            else if (着差 > 2.5)
+            {
+                return $"{Math.Round(着差 / 2.5)}马身";
+            }
+            // 小于等于1马身 根据表里的配置读取
+            else
+            {
+                返回值 = 数据表.距离对应着差字典.OrderBy(pair => Math.Abs(pair.Key - 着差)).First().Value;
+            }
             return 返回值;
         }
     }

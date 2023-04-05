@@ -11,7 +11,7 @@ namespace HorseRace
         public static string 唯一名称;
         public static string 标签;
         public static int 优先级;
-        public static float 持续时间;
+        public static double 持续时间;
         public static string 添加者;
         public static 马 承担者;
 
