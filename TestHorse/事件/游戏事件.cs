@@ -10,11 +10,22 @@ namespace HorseRace.事件
     {
         public const string 异能被添加 = nameof(异能被添加);
         public const string 异能被移除 = nameof(异能被移除);
+        public const string 异能被发动 = nameof(异能被发动);
     }
     public class 异能被添加事件 : EventArgs
     {
-        public string 异能名称;
-        public string 添加者;
-        public 马 承担者;
+        public 异能 异能;
+        public 异能.原因 添加原因;
+    }
+    public class 异能被移除事件 : EventArgs
+    {
+        public 异能 异能;
+        public 异能.原因 移除原因;
+    }
+
+    public class 异能被发动事件 : EventArgs
+    {
+        public 异能 异能;
+        public 异能.原因 发动原因;
     }
 }

@@ -50,7 +50,8 @@ namespace HorseRace
         {
             get
             {
-                return 20 - (总长度 - 2000) / 1000;
+                double 返回值 = 20 - (总长度 - 2000) / 1000;
+                return 返回值 > 1 ? 返回值 : 1;
             }
         }
 

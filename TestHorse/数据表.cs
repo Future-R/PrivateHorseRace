@@ -14,6 +14,10 @@ namespace HorseRace
         public static int 所有赛道的数量;
         public static int 保底属性;
         public static double 赛道属性加成倍率;
+
+        // 赛道距离影响技能持续时间和冷却时间
+        // 比如赛道2000m时，技能持续时间为5，那么实际持续时间为5 * 2000 / 1000 = 10秒
+        public static double 技能时间修正 { get { return 当前比赛.总长度 / 1000; } }
         public static Dictionary<double, string> 距离对应着差字典 { get; set; }
 
         public static List<马> 所有马 { get; set; }
@@ -68,14 +72,14 @@ namespace HorseRace
 
         public class 属性修正 : IComparable
         {
-            public List<string> 标签组;
+            public List<string> 标签组 = new List<string>();
             // 乘算默认100 加算默认200
             public int 优先级;
             // 加算还是乘算
             public bool 是加算;
             public double 修正值;
             // 约定-1为永续效果
-            public double 剩余持续时间;
+            public double 剩余持续时间 = -1;
 
             public int CompareTo(object obj)
             {
@@ -116,7 +120,7 @@ namespace HorseRace
 
         public static 比赛 当前比赛 { get; set; }
 
-        public static void 更新()
+        public static void 数据库更新()
         {
             工具.打印("正在打开新世界");
             var random = new Random();
