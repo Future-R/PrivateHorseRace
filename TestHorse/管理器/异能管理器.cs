@@ -45,6 +45,16 @@ namespace HorseRace
             异能池.Add(异能);
         }
 
+        public static bool 有标签(马 马, string 标签)
+        {
+            return 马.状态.Any(异能 => 异能.标签组.Contains(标签));
+        }
+
+        public static 异能 获取异能(马 马, string 名称)
+        {
+            return 马.状态.Where(异能 => 异能.唯一名称 == 名称).FirstOrDefault();
+        }
+
         private static void 记录将被移除的异能(object sender, EventArgs e)
         {
             事件.异能被移除事件 事件数据 = e as 事件.异能被移除事件;

@@ -35,6 +35,11 @@ namespace HorseRace
         {
             Console.WriteLine(x);
         }
+        public static void 报错(string x)
+        {
+            Console.WriteLine(x);
+            Console.ReadKey();
+        }
 
         // 距离越长，变化越大
         public static List<double> 生成赛道海拔(double 距离)

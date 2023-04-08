@@ -19,6 +19,8 @@ namespace HorseRace
             系统规则,
             自身效果,
             时间结束,
+            距离结束,
+            目标丢失,
         }
         public void 添加(原因 添加原因)
         {

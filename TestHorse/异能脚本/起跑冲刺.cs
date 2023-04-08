@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace HorseRace
 {
@@ -13,8 +12,6 @@ namespace HorseRace
 
         public 数据表.属性修正 加速度提升 = new 数据表.属性修正
         {
-            优先级 = 200,
-            是加算 = true,
             修正值 = 24
         };
 

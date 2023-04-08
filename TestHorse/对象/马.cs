@@ -31,6 +31,8 @@ namespace HorseRace
 
         // 跑法 0逃1先2中3追4大逃
         public int 跑法 = -1;
+        // 焦躁的时候会和跑法不一致
+        public int 跑法意识 = -1;
         public int 干劲 = -1;
 
         public List<异能> 状态 = new List<异能>();
@@ -43,6 +45,8 @@ namespace HorseRace
         public 属性 力量属性 = new 属性();
         public 属性 意志属性 = new 属性();
         public 属性 智力属性 = new 属性();
+
+        public 属性 体力消耗系数 = new 属性 { 基础属性 = 1 };
 
         public char[] 属性优势 = new char[3] { '×', '×', '×' };
 
@@ -76,8 +80,6 @@ namespace HorseRace
                 return -1;
             }
         }
-        public double 用时 { get; set; }
-
 
         public 属性 当前速度 = new 属性();
         public 属性 目标速度 = new 属性();
@@ -99,6 +101,7 @@ namespace HorseRace
             }
         }
         public double 出闸延迟 { get; set; }
+
 
         // 最低速度 = 0.85 * 赛道基准速度 + 根号(200 * 根性属性) * 0.001
         public double 最低速度
@@ -124,7 +127,7 @@ namespace HorseRace
 
         public 马()
         {
-            属性组.AddRange(new[] { 速度属性, 耐力属性, 力量属性, 意志属性, 智力属性, 当前速度, 目标速度, 当前加速度 });
+            属性组.AddRange(new[] { 速度属性, 耐力属性, 力量属性, 意志属性, 智力属性, 当前速度, 目标速度, 当前加速度 , 体力消耗系数 });
         }
 
         // 序盘和中盘：基础目标速度 = 赛道基准速度 * 跑法阶段系数

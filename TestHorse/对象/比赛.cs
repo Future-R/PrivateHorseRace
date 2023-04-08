@@ -19,6 +19,11 @@ namespace HorseRace
 
         public List<马> 赛后马 = new List<马>();
 
+        public double 进行时间 { get; set; }
+
+        // 前三名中跑法最靠前的，关系到其他马的位置意识
+        public 马 领头马 { get; set; }
+
 
         public 距离 距离类型
         {

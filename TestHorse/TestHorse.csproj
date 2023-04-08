@@ -51,6 +51,10 @@
   <ItemGroup>
     <Compile Include="事件\事件管理器扩展.cs" />
     <Compile Include="事件\单例基类.cs" />
+    <Compile Include="异能脚本\焦躁.cs" />
+    <Compile Include="异能脚本\逃马超越.cs" />
+    <Compile Include="异能脚本\逃马提速.cs" />
+    <Compile Include="管理器\位置意识.cs" />
     <Compile Include="管理器\异能管理器.cs" />
     <Compile Include="事件\游戏事件.cs" />
     <Compile Include="对象\异能.cs" />

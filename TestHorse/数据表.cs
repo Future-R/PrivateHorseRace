@@ -14,6 +14,8 @@ namespace HorseRace
         public static int 所有赛道的数量;
         public static int 保底属性;
         public static double 赛道属性加成倍率;
+        // 不然太容易破纪录了
+        public static double 结算时间修正 = 1.2;
 
         // 赛道距离影响技能持续时间和冷却时间
         // 比如赛道2000m时，技能持续时间为5，那么实际持续时间为5 * 2000 / 1000 = 10秒
@@ -74,9 +76,9 @@ namespace HorseRace
         {
             public List<string> 标签组 = new List<string>();
             // 乘算默认100 加算默认200
-            public int 优先级;
+            public int 优先级 = 200;
             // 加算还是乘算
-            public bool 是加算;
+            public bool 是加算 = true;
             public double 修正值;
             // 约定-1为永续效果
             public double 剩余持续时间 = -1;
