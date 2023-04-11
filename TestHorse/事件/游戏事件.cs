@@ -12,6 +12,8 @@ namespace HorseRace.事件
         public const string 异能被移除 = nameof(异能被移除);
         public const string 异能被发动 = nameof(异能被发动);
         public const string 进入新赛段 = nameof(进入新赛段);
+        public const string 体力耗尽 = nameof(体力耗尽);
+        public const string 名次变化 = nameof(名次变化);
     }
     public class 异能被添加事件 : EventArgs
     {
@@ -28,5 +30,10 @@ namespace HorseRace.事件
     {
         public 异能 异能;
         public 异能.原因 发动原因;
+    }
+
+    public class 名次变化事件 : EventArgs
+    {
+        public int 变化值;
     }
 }

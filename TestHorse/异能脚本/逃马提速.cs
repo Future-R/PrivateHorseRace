@@ -18,8 +18,8 @@ namespace HorseRace
             修正值 = 1.4
         };
 
-        public static double 退出距离 = 4.5;
-        private static double 已持续距离;
+        public double 退出距离 = 4.5;
+        private double 已持续距离;
 
         public override void 添加时()
         {

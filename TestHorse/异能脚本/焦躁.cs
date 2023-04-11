@@ -20,13 +20,13 @@ namespace HorseRace
         public override string 添加者 { get; set; }
         public override 马 承担者 { get; set; }
 
-        private static int 焦躁赛段;
+        private int 焦躁赛段;
         // 如果剩余时间>0，说明处于焦躁中，所有位置模式智力检定自动成功
-        private static double 剩余时间 = -1;
+        private double 剩余时间 = -1;
 
         private 数据表.属性修正 体力消耗修正 = new 数据表.属性修正 { 修正值 = 1.6, 是加算 = false, 优先级 = 100 };
 
-        public 焦躁()
+        public override void 添加时()
         {
             // 随机2~9
             焦躁赛段 = 工具.随机.Next(8) + 2;
