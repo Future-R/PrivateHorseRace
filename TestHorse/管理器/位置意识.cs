@@ -31,7 +31,7 @@ namespace HorseRace
             冷却池 = new Dictionary<马, double>();
             foreach (马 参赛马 in 数据表.当前比赛.参赛马)
             {
-                冷却池.Add(参赛马, 0);
+                冷却池.Add(参赛马, 2);
                 参赛马.跑法意识 = 参赛马.跑法;
             }
             一个赛段的距离 = 数据表.当前比赛.总长度 / 24;
