@@ -52,6 +52,7 @@
     <Compile Include="事件\事件管理器扩展.cs" />
     <Compile Include="事件\单例基类.cs" />
     <Compile Include="异能脚本\焦躁.cs" />
+    <Compile Include="对象\技能.cs" />
     <Compile Include="异能脚本\逃马超越.cs" />
     <Compile Include="异能脚本\逃马提速.cs" />
     <Compile Include="显示\状态显示.cs" />
