@@ -31,9 +31,11 @@ namespace HorseRace
         //    return (double)(Mathf.PerlinNoise(seed.SelectOne(), timer) - 0.5) * 2;
         //}
 
-        public static void 打印(string x)
+        public static void 打印(string 文字, ConsoleColor 颜色 = ConsoleColor.White)
         {
-            Console.WriteLine(x);
+            Console.ForegroundColor = 颜色;
+            Console.WriteLine(文字);
+            Console.ResetColor();
         }
         public static void 报错(string x)
         {
