@@ -5,12 +5,12 @@ namespace HorseRace
     public class 技能 : 异能
     {
         public override string 唯一名称 { get; set; }
-        public override List<string> 标签组 { get; set; }
+        public override List<string> 标签组 => new List<string> { "技能" };
         public override double 持续时间 => -1;
         public override string 添加者 { get; set; }
         public override 马 承担者 { get; set; }
 
-
+        public string 显示名称 { get; set; }
         public string 技能描述 { get; set; }
         public bool 需要智力检定 { get; set; }
         public 技能稀有度 稀有度 { get; set; }
