@@ -84,6 +84,38 @@ namespace HorseRace
         public 属性 当前速度 = new 属性();
         public 属性 目标速度 = new 属性();
         public 属性 当前加速度 = new 属性();
+        public 属性 视野 = new 属性 { 基础属性 = 20 };
+
+        // 阻挡与被阻挡
+        // 马娘游戏里有宽度，我没做宽度设定，所以用一个公式来拟合
+        // 马娘做被阻挡判定时，会根据前方2m内所有马分别做判定
+        // 阻挡马有一个阻挡力，主要受力量和智力影响。冲刺盘时，智力影响失效。
+        // 被阻挡马有突破力，主要受力量、智力和视野影响。距离越近，视野影响越小。
+        // 如果有复数的马娘同时通过阻挡判定，前后距离最近的那一只会被选择为阻挡对象。
+
+        public double 阻挡力
+        {
+            get
+            {
+                if (赛段 > 2 && 赛段 < 21)
+                {
+                    return 力量属性.最终属性 * 0.8;
+                }
+                else
+                {
+                    return 力量属性.最终属性 + 智力属性.最终属性 * 0.5;
+                }
+            }
+        }
+        public double 突破力
+        {
+            get
+            {
+                return 力量属性.最终属性 + 智力属性.最终属性 * 0.8 + 意志属性.最终属性 * 0.2;
+            }
+        }
+
+
         public double 体力上限 { get; set; }
 
         private double _当前体力;
@@ -100,7 +132,6 @@ namespace HorseRace
                     _当前体力 = value;
             }
         }
-        public double 出闸延迟 { get; set; }
 
 
         // 最低速度 = 0.85 * 赛道基准速度 + 根号(200 * 根性属性) * 0.001
@@ -116,18 +147,17 @@ namespace HorseRace
         // 冲线数据
         public double 冲线时间 = 0;
         public double 冲线速度 = 0;
-        public double 名次 = 0;
+        public int 名次 = 0;
         public double 着差 = 0;
         public string 着差文案 = "优胜";
 
-        // 终盘超人
-        public double change_order_up_end_after = 0;
-        // 附近马娘
-        public double near_count = 0;
+        public double 被阻挡时间 = 0;
+        public double 终盘超人 = 0;
+        public double 附近马娘 = 0;
 
         public 马()
         {
-            属性组.AddRange(new[] { 速度属性, 耐力属性, 力量属性, 意志属性, 智力属性, 当前速度, 目标速度, 当前加速度 , 体力消耗系数 });
+            属性组.AddRange(new[] { 速度属性, 耐力属性, 力量属性, 意志属性, 智力属性, 当前速度, 目标速度, 当前加速度, 体力消耗系数, 视野 });
         }
 
         // 序盘和中盘：基础目标速度 = 赛道基准速度 * 跑法阶段系数
@@ -193,7 +223,7 @@ namespace HorseRace
                         item.剩余持续时间 -= 一帧时间;
                         if (item.剩余持续时间 < 0)
                         {
-                            工具.打印($"{名称}移除了{修正组[i].标签组.First()}");
+                            //工具.打印($"{名称}移除了{修正组[i].标签组.First()}");
                             修正组.RemoveAt(i);
                         }
                     }

@@ -14,6 +14,8 @@ namespace HorseRace.事件
         public const string 进入新赛段 = nameof(进入新赛段);
         public const string 体力耗尽 = nameof(体力耗尽);
         public const string 名次变化 = nameof(名次变化);
+        public const string 被阻挡 = nameof(被阻挡);
+        public const string 起跑 = nameof(起跑);
     }
     public class 异能被添加事件 : EventArgs
     {
@@ -35,5 +37,9 @@ namespace HorseRace.事件
     public class 名次变化事件 : EventArgs
     {
         public int 变化值;
+    }
+    public class 被阻挡事件 : EventArgs
+    {
+        public 马 阻挡者;
     }
 }

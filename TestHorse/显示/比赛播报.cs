@@ -16,12 +16,46 @@ namespace HorseRace
             待播报阶段 = new List<int> { 2, 5, 17, 21 };
             事件管理器.实例.订阅(事件.游戏事件.进入新赛段, 领头马进入新阶段);
             事件管理器.实例.订阅(事件.游戏事件.体力耗尽, 领头马体力耗尽);
+            事件管理器.实例.订阅(事件.游戏事件.起跑, 出迟播报);
         }
 
         public static void 结束()
         {
             事件管理器.实例.退订(事件.游戏事件.进入新赛段, 领头马进入新阶段);
             事件管理器.实例.退订(事件.游戏事件.体力耗尽, 领头马体力耗尽);
+            事件管理器.实例.退订(事件.游戏事件.起跑, 出迟播报);
+        }
+
+        private static void 出迟播报(object sender, EventArgs e)
+        {
+            马 当前马 = sender as 马;
+            double 当前马延迟 = (当前马.状态.Find(x => x.唯一名称 == "出闸") as 出闸).剩余延迟;
+            double 累计延迟 = 当前比赛.进行时间 - 一帧时间 + 当前马延迟;
+            if (累计延迟 > 1)
+            {
+                工具.打印($"这可真是世纪大出迟呢{当前马.名称}！", ConsoleColor.Red);
+                Thread.Sleep(2000);
+            }
+            else if (累计延迟 > 0.095)
+            {
+                工具.打印($"哎呀！这是怎么了！{当前马.名称}处于很尴尬的位置从后方开始追赶。", ConsoleColor.Red);
+                Thread.Sleep(2000);
+            }
+            else if (累计延迟 > 0.09)
+            {
+                工具.打印($"{当前马.名称}毫无疑问出迟了！！", ConsoleColor.Red);
+                Thread.Sleep(1000);
+            }
+            else if (累计延迟 > 0.085)
+            {
+                工具.打印($"{当前马.名称}稍微有些出迟了！", ConsoleColor.Red);
+                Thread.Sleep(1000);
+            }
+            else if (累计延迟 > 0.08)
+            {
+                工具.打印($"{当前马.名称}是出迟了吗！？", ConsoleColor.Red);
+                Thread.Sleep(1000);
+            }
         }
 
         public static void 冲线解说(List<马> 这一帧冲线的马)
@@ -156,7 +190,7 @@ namespace HorseRace
                 工具.打印($"{当前马.名称}虽然辛苦但仍然坚持着！", ConsoleColor.Red);
                 Thread.Sleep(2000);
             }
-            else if(当前马.名次 == 2 || 当前马.名次 == 3)
+            else if (当前马.名次 == 2 || 当前马.名次 == 3)
             {
                 工具.打印($"{当前马.名称}到此为止了吗！", ConsoleColor.Red);
                 Thread.Sleep(1000);
