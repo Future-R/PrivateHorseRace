@@ -29,10 +29,20 @@ namespace HorseRace
 
         public int 干劲系数 = 0;
 
-        // 跑法 0逃1先2中3追4大逃
-        public int 跑法 = -1;
+        public 跑法位置 跑法 = 跑法位置.未知;
+
+        public enum 跑法位置
+        {
+            未知 = -1,
+            爆领 = 0,
+            领头 = 1,
+            前列 = 2,
+            居中 = 3,
+            后追 = 4
+        }
+
         // 焦躁的时候会和跑法不一致
-        public int 跑法意识 = -1;
+        public 跑法位置 跑法意识 = 跑法位置.未知;
         public int 干劲 = -1;
 
         public List<异能> 状态 = new List<异能>();
@@ -171,12 +181,12 @@ namespace HorseRace
             switch (当前阶段)
             {
                 case 0:
-                    return 当前比赛.赛道基准速度 * 跑法配置表[跑法].序盘目标速度;
+                    return 当前比赛.赛道基准速度 * 跑法配置表[(int)跑法].序盘目标速度;
                 case 1:
-                    return 当前比赛.赛道基准速度 * 跑法配置表[跑法].中盘目标速度;
+                    return 当前比赛.赛道基准速度 * 跑法配置表[(int)跑法].中盘目标速度;
                 case 2:
                 case 3:
-                    return 当前比赛.赛道基准速度 * 跑法配置表[跑法].终盘和冲刺目标速度 + Math.Sqrt(500 * 速度属性.最终属性) * 距离速度修正[距离适性[跑法]] * 0.002;
+                    return 当前比赛.赛道基准速度 * 跑法配置表[(int)跑法].终盘和冲刺目标速度 + Math.Sqrt(500 * 速度属性.最终属性) * 距离速度修正[距离适性[(int)当前比赛.距离类型]] * 0.002;
                 default:
                     return -1;
             }
@@ -198,12 +208,12 @@ namespace HorseRace
             switch (当前阶段)
             {
                 case 0:
-                    return 加速度 * 跑法配置表[跑法].序盘加速度;
+                    return 加速度 * 跑法配置表[(int)跑法].序盘加速度;
                 case 1:
-                    return 加速度 * 跑法配置表[跑法].中盘加速度;
+                    return 加速度 * 跑法配置表[(int)跑法].中盘加速度;
                 case 2:
                 case 3:
-                    return 加速度 * 跑法配置表[跑法].终盘和冲刺加速度;
+                    return 加速度 * 跑法配置表[(int)跑法].终盘和冲刺加速度;
                 default:
                     return -1;
             }

@@ -175,6 +175,8 @@ namespace HorseRace
                 {
                     所有马[i].跑法适性.Add(工具.获取适性等级(工作表.Cells[i + 2, j].Value));
                 }
+                // 爆领适应性和领头相同，先这么处理
+                所有马[i].跑法适性.Insert(0, 所有马[i].跑法适性.FirstOrDefault());
             }
             工作簿.Close();
 
