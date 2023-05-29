@@ -10,8 +10,8 @@ namespace HorseRace
     public static class 数据表
     {
         public static double 一帧时间;
-        public static int 所有马的数量;
-        public static int 所有赛道的数量;
+        //public static int 所有马的数量;
+        //public static int 所有赛道的数量;
         public static int 保底属性;
         public static double 赛道属性加成倍率;
         // 不然太容易破纪录了
@@ -135,8 +135,8 @@ namespace HorseRace
             Excel.Worksheet 工作表 = 工作簿.Sheets[1];
 
             一帧时间 = (double)工作表.Cells[2, 3].Value;
-            所有马的数量 = (int)工作表.Cells[3, 3].Value;
-            所有赛道的数量 = (int)工作表.Cells[4, 3].Value;
+            //所有马的数量 = (int)工作表.Cells[3, 3].Value;
+            //所有赛道的数量 = (int)工作表.Cells[4, 3].Value;
             保底属性 = (int)工作表.Cells[5, 3].Value;
             赛道属性加成倍率 = (double)工作表.Cells[6, 3].Value;
 
@@ -147,37 +147,41 @@ namespace HorseRace
             所有马 = new List<马>();
             工作簿 = excel.Workbooks.Open($"{当前目录}/马的基础属性.xlsx");
             工作表 = 工作簿.Sheets[1];
-            for (int i = 0; i < 所有马的数量; i++)
+            int 行号 = 0;
+            while (工作表.Cells[行号 + 2, 1].Value != null)
             {
                 所有马.Add(new 马());
 
                 // 跳过第一行的表头，所以是0+2=2，从第二行开始读
-                所有马[i].Id = (int)工作表.Cells[i + 2, 1].Value;
-                所有马[i].名称 = 工作表.Cells[i + 2, 2].Value;
-                所有马[i].基础速度 = (int)Math.Floor(工作表.Cells[i + 2, 3].Value);
-                所有马[i].基础耐力 = (int)Math.Floor(工作表.Cells[i + 2, 4].Value);
-                所有马[i].基础力量 = (int)Math.Floor(工作表.Cells[i + 2, 5].Value);
-                所有马[i].基础意志 = (int)Math.Floor(工作表.Cells[i + 2, 6].Value);
-                所有马[i].基础智力 = (int)Math.Floor(工作表.Cells[i + 2, 7].Value);
+                所有马[行号].Id = (int)工作表.Cells[行号 + 2, 1].Value;
+                所有马[行号].名称 = 工作表.Cells[行号 + 2, 2].Value;
+                所有马[行号].基础速度 = (int)Math.Floor(工作表.Cells[行号 + 2, 3].Value);
+                所有马[行号].基础耐力 = (int)Math.Floor(工作表.Cells[行号 + 2, 4].Value);
+                所有马[行号].基础力量 = (int)Math.Floor(工作表.Cells[行号 + 2, 5].Value);
+                所有马[行号].基础意志 = (int)Math.Floor(工作表.Cells[行号 + 2, 6].Value);
+                所有马[行号].基础智力 = (int)Math.Floor(工作表.Cells[行号 + 2, 7].Value);
                 // 这里跳了5列，成长率暂时用不到，7+5+1=13
                 // 13~14场地适应 15~18距离适应 19~22跑法适应
-                所有马[i].草地适性 = 工具.获取适性等级(工作表.Cells[i + 2, 13].Value);
-                所有马[i].泥地适性 = 工具.获取适性等级(工作表.Cells[i + 2, 14].Value);
+                所有马[行号].草地适性 = 工具.获取适性等级(工作表.Cells[行号 + 2, 13].Value);
+                所有马[行号].泥地适性 = 工具.获取适性等级(工作表.Cells[行号 + 2, 14].Value);
 
-                所有马[i].距离适性 = new List<int>();
+                所有马[行号].距离适性 = new List<int>();
                 for (int j = 15; j < 19; j++)
                 {
-                    所有马[i].距离适性.Add(工具.获取适性等级(工作表.Cells[i + 2, j].Value));
+                    所有马[行号].距离适性.Add(工具.获取适性等级(工作表.Cells[行号 + 2, j].Value));
                 }
 
-                所有马[i].跑法适性 = new List<int>();
+                所有马[行号].跑法适性 = new List<int>();
                 for (int j = 19; j < 23; j++)
                 {
-                    所有马[i].跑法适性.Add(工具.获取适性等级(工作表.Cells[i + 2, j].Value));
+                    所有马[行号].跑法适性.Add(工具.获取适性等级(工作表.Cells[行号 + 2, j].Value));
                 }
                 // 爆领适应性和领头相同，先这么处理
-                所有马[i].跑法适性.Insert(0, 所有马[i].跑法适性.FirstOrDefault());
+                所有马[行号].跑法适性.Insert(0, 所有马[行号].跑法适性.FirstOrDefault());
+
+                行号++;
             }
+            行号 = 0;
             工作簿.Close();
 
             // 读取赛道属性
@@ -185,20 +189,24 @@ namespace HorseRace
             所有赛道 = new List<比赛>();
             工作簿 = excel.Workbooks.Open($"{当前目录}/比赛表.xlsx");
             工作表 = 工作簿.Sheets[1];
-            for (int i = 0; i < 所有赛道的数量; i++)
+
+            while (工作表.Cells[行号 + 2, 1].Value != null)
             {
                 所有赛道.Add(new 比赛());
 
-                所有赛道[i].ID = (int)工作表.Cells[i + 2, 1].Value;
-                所有赛道[i].名称 = 工作表.Cells[i + 2, 2].Value;
-                所有赛道[i].是草地 = 工作表.Cells[i + 2, 5].Value == "草地";
-                所有赛道[i].总长度 = (double)Math.Floor(工作表.Cells[i + 2, 6].Value);
+                所有赛道[行号].ID = (int)工作表.Cells[行号 + 2, 1].Value;
+                所有赛道[行号].名称 = 工作表.Cells[行号 + 2, 2].Value;
+                所有赛道[行号].是草地 = 工作表.Cells[行号 + 2, 5].Value == "草地";
+                所有赛道[行号].总长度 = (double)Math.Floor(工作表.Cells[行号 + 2, 6].Value);
 
                 // TODO：随机天气
 
                 // 简单的均匀随机 0良好 1略差 2差 3极差
-                所有赛道[i].场地状况 = random.Next(3);
+                所有赛道[行号].场地状况 = random.Next(3);
+
+                行号++;
             }
+            行号 = 0;
             工作簿.Close();
 
             // 读取场地状况配置表

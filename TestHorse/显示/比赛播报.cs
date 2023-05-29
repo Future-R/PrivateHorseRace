@@ -109,6 +109,8 @@ namespace HorseRace
                         }
                         break;
                     default:
+                        工具.打印($"第二名是{这一帧冲线的马.FirstOrDefault().名称}；第三名是{这一帧冲线的马[1].名称}。", ConsoleColor.Yellow);
+                        Thread.Sleep(2000);
                         break;
                 }
             }

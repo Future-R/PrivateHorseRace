@@ -142,6 +142,62 @@ namespace HorseRace
             return 返回值;
         }
 
+        public static List<马> 按适性抽取(int 数量)
+        {
+            if (数据表.所有马.Count < 数量)
+            {
+                return 数据表.所有马;
+            }
+            List<马> 返回值 = new List<马>();
+            Dictionary<马, int> 马随机权重 = new Dictionary<马, int>();
+
+            // 随机权重为场地适性的平方*距离适性的平方
+            foreach (马 当前马 in 数据表.所有马)
+            {
+                int 随机权重 = 数据表.当前比赛.是草地 ? 当前马.草地适性 : 当前马.泥地适性;
+                随机权重 *= 随机权重;
+                switch (数据表.当前比赛.距离类型)
+                {
+                    case 比赛.距离.短距离:
+                        随机权重 *= 当前马.距离适性[0] * 当前马.距离适性[0];
+                        break;
+                    case 比赛.距离.英哩赛:
+                        随机权重 *= 当前马.距离适性[1] * 当前马.距离适性[1];
+                        break;
+                    case 比赛.距离.中距离:
+                        随机权重 *= 当前马.距离适性[2] * 当前马.距离适性[2];
+                        break;
+                    case 比赛.距离.长距离:
+                        随机权重 *= 当前马.距离适性[3] * 当前马.距离适性[3];
+                        break;
+                    default:
+                        break;
+                }
+                马随机权重.Add(当前马, 随机权重);
+            }
+
+            // 根据随机权重不重复抽取
+            Random random = new Random();
+            for (int i = 0; i < 数量; i++)
+            {
+                int 总随机权重 = 马随机权重.Values.Sum();
+                int 随机数 = random.Next(总随机权重);
+                int 累计随机权重 = 0;
+                foreach (KeyValuePair<马, int> pair in 马随机权重)
+                {
+                    累计随机权重 += pair.Value;
+                    if (累计随机权重 > 随机数)
+                    {
+                        返回值.Add(pair.Key);
+                        马随机权重.Remove(pair.Key);
+                        break;
+                    }
+                }
+            }
+
+            return 返回值;
+        }
+
         public static int 获取适性等级(string 字母)
         {
             int 返回值 = 字母.Trim() switch

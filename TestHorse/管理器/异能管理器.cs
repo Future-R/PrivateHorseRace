@@ -22,6 +22,14 @@ namespace HorseRace
             事件管理器.实例.订阅(事件.游戏事件.异能被移除, 记录将被移除的异能);
         }
 
+        public static void 回收()
+        {
+            foreach (var 异能 in 异能池)
+            {
+                异能.移除(异能.原因.系统规则);
+            }
+        }
+
         public static void 遍历运行时()
         {
             异能池.ForEach(x => x.运行时());
